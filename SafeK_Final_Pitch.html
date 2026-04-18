@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeK - Final Pitch & Service Demo</title>
+    <!-- Korean Fonts: Noto Sans for body, Song Myung for traditional headings -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Song+Myung&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Korean Traditional Soft Dark Palette */
+            --meok-dark: #121214;        /* 먹색 (Deep Ink) */
+            --meok-light: #1e1e22;       /* 옅은 먹색 */
+            --celadon-accent: #375a55;   /* 청자색 변형 (Subtle Celadon/Jade) */
+            --dancheong-red: #c93d42;    /* 단청 적색 (Emergency Red) */
+            --hanji-white: #f5f3e9;      /* 한지색 (Off-white for text) */
+            --gold-accent: #c49a56;      /* 금박 (Subtle Gold) */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--meok-dark);
+            color: var(--hanji-white);
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Song Myung', serif;
+            font-weight: 400;
+        }
+
+        /* Abstract Traditional Background Pattern Overlay */
+        .bg-pattern {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(rgba(18, 18, 20, 0.93), rgba(18, 18, 20, 0.98)),
+                radial-gradient(circle at 50% 50%, rgba(55, 90, 85, 0.15) 0%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px 60px;
+            border-bottom: 1px solid rgba(196, 154, 86, 0.2);
+        }
+
+        header h1 {
+            font-size: 4rem;
+            color: var(--gold-accent);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--hanji-white);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background-color: var(--celadon-accent);
+            margin: 15px auto 0;
+        }
+
+        /* Cards Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background-color: var(--meok-light);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--celadon-accent);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: var(--gold-accent);
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .code-block {
+            background-color: #0b0b0d;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #7b9c98;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Mockup Image Styling */
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .mockup-item {
+            text-align: center;
+        }
+
+        .mockup-item img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .mockup-item h4 {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--hanji-white);
+            font-family: 'Song Myung', serif;
+        }
+
+        .mockup-item p {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Video Demo Section */
+        .demo-container {
+            text-align: center;
+            background-color: var(--meok-light);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .demo-container img.video-webp {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--celadon-accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .mockup-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<header>
+    <h1>SafeK</h1>
+    <p>외국인 관광객을 위한 시인성 극대화 및 지능형 재난 대피 네비게이터. <br>최종 서비스 검토 및 핏칭(Pitching) 덱 문서입니다.</p>
+</header>
+
+<div class="container">
+
+    <!-- Section 1: Code & Deployment Review -->
+    <h2 class="section-title">최종 서비스 검수 및 점검</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>1. 아키텍처 및 배포 환경</h3>
+            <p><strong>인프라 하이브리드 지원:</strong> Docker Compose (Local/Dev) 및 Kubernetes (Production Scale) 이원화 구성이 완료되었습니다.</p>
+            <p><strong>CI/CD 자동화:</strong> `.github/workflows/main-ci.yml` 파이프라인을 통해 GitHub -> DockerHub 이미지 푸시 자동화가 적용되어 있습니다.</p>
+            <p><strong>모니터링:</strong> Prometheus + Grafana를 연동해 실시간 시스템 부하율을 측정합니다.</p>
+        </div>
+        <div class="card">
+            <h3>2. 안정성 확보 (Test Logs)</h3>
+            <p>FastAPI 기반의 최적화된 백엔드는 시스템 핵심 컴포넌트에 대한 통합 테스트를 통과했습니다.</p>
+            <div class="code-block">
+❯ python -m pytest tests/test_api.py<br>
+================= test session starts =================<br>
+collected 3 items<br>
+tests\test_api.py ...                            [100%]<br>
+<span style="color: var(--celadon-accent);">======== 3 passed in 0.78s =========</span>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">프론트엔드 React 역시 `ESLint` 검증에서 `No errors or warnings!`로 무결성을 획득했습니다.</p>
+        </div>
+    </div>
+
+    <!-- Section 2: Final UI/UX Design Views -->
+    <h2 class="section-title">UI/UX 최종 디자인 시안 (디자인 철학)</h2>
+    <div style="text-align: center; margin-bottom: 40px; color: #bbb;">
+        부드러운 다크톤과 극한상황에서의 시인성(고대비)을 동시에 챙긴 "SafeK"만의 시그니처 룩(Signature Look)입니다.
+    </div>
+
+    <div class="mockup-grid">
+        <div class="mockup-item">
+            <img src="./assets/safek_home_dashboard_1776256169276.png" alt="Home Dashboard">
+            <h4>메인 대시보드 (Home View)</h4>
+            <p>직관적이고 굵은 폰트를 사용한 실시간 호우 경보 알림 배너. 주변 안전 지대를 요약하여 보여줍니다.</p>
+        </div>
+        <div class="mockup-item">
+            <img src="./assets/safek_sos_interface_1776256186488.png" alt="SOS Emergency">
+            <h4>긴급 SOS (SOS View)</h4>
+            <p>다국어 지원 토글과 함께 오작동 확률이 0에 수렴하는 글로잉 매크로 버튼. 실시간 GPS 좌표를 표출합니다.</p>
+        </div>
+        <div class="mockup-item">
+            <img src="./assets/safek_route_map_1776256206542.png" alt="Route Nav">
+            <h4>안전 네비게이터 (Route View)</h4>
+            <p>침수/위험 지역은 붉은 점선으로 차단하고 푸른색(청색) 네온 라인으로만 안전한 경로를 추천하는 AI 연동 맵 시스템.</p>
+        </div>
+    </div>
+
+    <!-- Section 3: Interactive Demo Presentation -->
+    <h2 class="section-title" style="margin-top: 100px;">SafeK 인터랙티브 영상 데모 (시연)</h2>
+    
+    <div class="demo-container">
+        <!-- WebP animation behaves like a GIF video natively in browsers -->
+        <img class="video-webp" src="./assets/safek_demo_rehearsal_verified.webp" alt="SafeK WebP Interactive Video Demo">
+        
+        <div style="margin-top: 30px; text-align: left; padding: 20px; background-color: rgba(0,0,0,0.3); border-radius: 8px;">
+            <h3 style="color: var(--celadon-accent); margin-top: 0;">시연 리허설 스크립트</h3>
+            <ul style="color: #bbb; line-height: 1.8;">
+                <li><strong>도입:</strong> "저희 SafeK 모바일 웹 화면입니다. 상단에 가장 시급한 기상 특보가 보입니다."</li>
+                <li><strong>글로벌/현지화:</strong> "상단 언어 토글을 클릭해 한국어로 실시간 변환되어 외국인 접근성을 높였습니다."</li>
+                <li><strong>SOS 증명:</strong> "실제 재난 발생 시 긴급 상황 메뉴에서 거대한 SOS 버튼 한 번으로 119/대사관에 GPS를 송출합니다."</li>
+                <li><strong>정리:</strong> "이 모든 UX는 도커(Docker) 기반 또는 K8S를 기반으로 운영되며, 현재 서버 환경 없이 브라우저 단에서 매끄러운 렌더링 검수에 성공했습니다."</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>SafeK Summer Project - Final Evaluation Delivery.</p>
+</footer>
+
+</body>
+</html>
