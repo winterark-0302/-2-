@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeK Summer - Interactive Mockup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --app-bg: #fafafa;
+            --primary: #4F46E5;
+            --primary-light: #818CF8;
+            --accent: #F43F5E;
+            --alert-bg: linear-gradient(135deg, #ff4e50, #f9d423);
+            --danger: #E11D48;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --white: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Device Container */
+        .device-container {
+            width: 390px;
+            height: 844px;
+            background-color: #111;
+            border-radius: 48px;
+            padding: 12px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.2), inset 0 0 0 2px #333;
+            position: relative;
+        }
+
+        .app-screen {
+            width: 100%;
+            height: 100%;
+            background-color: var(--app-bg);
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dynamic-island {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 28px;
+            background-color: #000;
+            border-radius: 20px;
+            z-index: 1000;
+        }
+
+        /* Header */
+        .header {
+            padding: 56px 24px 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--white);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            z-index: 10;
+        }
+
+        .header-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-location h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
+        }
+
+        .header-location i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .profile-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a78bfa, #818cf8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(129, 140, 248, 0.4);
+            cursor: pointer;
+        }
+
+        /* Scrollable content wrapping all tabs */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            position: relative;
+            background-color: var(--app-bg);
+            padding-bottom: 110px; /* space for tab bar */
+        }
+        .content::-webkit-scrollbar { display: none; }
+        
+        /* Tab Views */
+        .tab-view {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Tab Specifics */
+        .weather-alert {
+            margin: 20px 24px;
+            padding: 24px;
+            border-radius: 24px;
+            background: var(--alert-bg);
+            color: white;
+            box-shadow: 0 15px 30px rgba(255, 78, 80, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: pulse-shadow 2.5s infinite;
+        }
+
+        @keyframes pulse-shadow {
+            0% { box-shadow: 0 10px 20px rgba(255, 78, 80, 0.2); }
+            50% { box-shadow: 0 15px 35px rgba(255, 78, 80, 0.5); }
+            100% { box-shadow: 0 10px 20px rgba(255, 78, 80, 0.2); }
+        }
+
+        .alert-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(4px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .alert-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .alert-desc {
+            font-size: 0.95rem;
+            opacity: 0.95;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .alert-action {
+            background-color: var(--white);
+            color: #d9381e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .alert-action:active { transform: scale(0.98); }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 24px;
+            margin: 32px 0 16px 0;
+        }
+
+        .section-title { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); }
+        .section-more { font-size: 0.85rem; color: var(--primary); font-weight: 600; cursor: pointer; }
+
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 24px 20px 24px;
+            gap: 16px;
+            scroll-snap-type: x mandatory;
+        }
+        .horizontal-scroll::-webkit-scrollbar { display: none; }
+
+        .course-card {
+            min-width: 260px;
+            height: 320px;
+            background-color: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            position: relative;
+            scroll-snap-align: start;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .course-card:active { transform: scale(0.96); }
+        
+        .course-img { height: 180px; width: 100%; background-size: cover; background-position: center; }
+        .course-card:nth-child(1) .course-img { background-image: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1614704040183-149ab0018514?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'); }
+        .course-card:nth-child(2) .course-img { background-image: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1591585860773-61fcbe42e20d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'); }
+
+        .course-badge {
+            position: absolute; top: 16px; left: 16px;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+            color: white; padding: 6px 12px; border-radius: 12px;
+            font-size: 0.75rem; font-weight: 600;
+        }
+        .course-info { padding: 20px; }
+        .course-title { font-size: 1.15rem; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; }
+        .course-stats { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+        .stat-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-gray); font-weight: 500; }
+
+        .facilities-list { padding: 0 24px; display: flex; flex-direction: column; gap: 16px; }
+        .facility-item { background-color: var(--white); padding: 16px; border-radius: 20px; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-sm); cursor: pointer; }
+        .facility-item:active { transform: scale(0.98); }
+        .facility-icon { width: 50px; height: 50px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-size: 1.4rem; }
+        .icon-restroom { background: #e0e7ff; color: #4338ca; }
+        .icon-shelter { background: #dcfce7; color: #15803d; }
+        .facility-details { flex: 1; }
+        .facility-name { font-size: 1.05rem; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+        .facility-dist { font-size: 0.85rem; color: var(--text-gray); }
+
+        /* Map Tab Specifics */
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%; /* Will take full height of content */
+            min-height: 700px;
+            background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .map-overlay-layer {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(2px);
+        }
+
+        .map-marker {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid var(--primary);
+        }
+        .map-marker:active { transform: scale(0.9); }
+        .map-marker.shelter { color: #15803d; border-color: #15803d; }
+        .map-marker.me { background: var(--primary); color: white; box-shadow: 0 0 0 8px rgba(79, 70, 229, 0.3); border: none;}
+        
+        /* Map Bottom Sheet */
+        .map-bottom-sheet {
+            position: absolute;
+            bottom: 100px;
+            left: 16px;
+            right: 16px;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            z-index: 10;
+        }
+
+        /* Course List Tab */
+        .course-list-tab { padding: 24px; }
+        .course-list-hero { margin-bottom: 24px; background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 24px; border-radius: 20px; }
+        
+        .vertical-course-card {
+            display: flex;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            height: 120px;
+            cursor: pointer;
+        }
+        .vertical-course-card:active { transform: scale(0.98); }
+        .v-card-img { width: 120px; height: 100%; background-size: cover; background-position: center; }
+        .v-card-content { padding: 16px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+        /* My Profile Tab */
+        .profile-header { text-align: center; padding: 40px 24px; }
+        .profile-avatar { width: 100px; height: 100px; background: linear-gradient(135deg, #a78bfa, #818cf8); border-radius: 50%; margin: 0 auto 16px auto; display: flex; justify-content: center; align-items: center; color: white; font-size: 2.5rem; font-weight: 700; }
+        .profile-name { font-size: 1.5rem; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
+        .profile-setting-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; background: var(--white); border-bottom: 1px solid #f1f5f9; cursor: pointer; }
+        .profile-setting-item:hover { background: #f8fafc; }
+        
+        /* Floating Elements */
+        .bottom-nav {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            height: 70px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 0 10px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            font-weight: 600;
+            width: 60px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
+        .nav-item.active i { transform: translateY(-2px); }
+
+        .sos-fab {
+            position: absolute;
+            bottom: 110px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 25px rgba(244, 63, 94, 0.4);
+            cursor: pointer;
+            z-index: 99;
+            transition: transform 0.2s;
+        }
+        .sos-fab:active { transform: scale(0.9); }
+        .sos-ripple { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--accent); animation: ripple 2s infinite ease-out; pointer-events: none; }
+        .sos-ripple:nth-child(2) { animation-delay: 0.5s; }
+
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.8); opacity: 0; } }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            background: white;
+            width: 85%;
+            border-radius: 24px;
+            padding: 30px 24px;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+            animation: modalPop 0.3s forwards;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 15px; color: var(--danger); display: flex; align-items: center; gap: 10px; }
+        .modal-desc { font-size: 0.95rem; color: var(--text-dark); margin-bottom: 25px; line-height: 1.6; }
+        .btn-call { width: 100%; padding: 16px; background: var(--danger); color: white; border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 700; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; }
+        .btn-close { margin-top: 15px; width: 100%; padding: 12px; background: #f1f5f9; border: none; border-radius: 16px; font-weight: 600; cursor: pointer; color: var(--text-gray); }
+
+        /* General Toast Notification */
+        .toast {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 300;
+            display: none;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+    </style>
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8f1de8d34bd9f4d0376a8c5f4a220513&libraries=services"></script>
+</head>
+<body>
+
+    <div class="device-container">
+        <div class="app-screen">
+            <div class="dynamic-island"></div>
+
+            <div class="header">
+                <div class="header-location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <h1 id="current-address">Seoul, Gangnam</h1>
+                </div>
+                <div class="profile-btn" onclick="switchTab('my')">
+                    JR
+                </div>
+            </div>
+
+            <div class="content" id="appContent">
+                
+                <!-- HOME TAB -->
+                <div id="tab-home" class="tab-view active">
+                    <div class="weather-alert" id="dynamic-weather-alert">
+                        <div class="alert-badge"><i class="fa-solid fa-spinner fa-spin"></i> Loading Weather</div>
+                        <div class="alert-title">--°C</div>
+                        <div class="alert-desc">Fetching real-time local weather data...</div>
+                        <button class="alert-action" onclick="findNearestShelter()">
+                            <i class="fa-solid fa-route"></i> Find Cooling Shelter
+                        </button>
+                    </div>
+
+                    <div class="section-header">
+                        <h2 class="section-title" id="txt-indoor-alts">Indoor Alternatives</h2>
+                        <span class="section-more" onclick="switchTab('course')">See all</span>
+                    </div>
+                    
+                    <div class="horizontal-scroll" id="dynamic-indoor-alts">
+                        <!-- Dynamic items will be injected here -->
+                    </div>
+
+                    <div class="section-header">
+                        <h2 class="section-title" id="txt-nearby-facs">Nearby Facilities</h2>
+                    </div>
+
+                    <div class="facilities-list" id="dynamic-facilities">
+                        <!-- Dynamic facilities will be injected here -->
+                    </div>
+                </div>
+
+                <!-- MAP TAB -->
+                <div id="tab-map" class="tab-view" style="height: 100%;">
+                    <div class="map-wrapper">
+                        <div id="real-map" style="position:absolute; inset:0; z-index:0; border-radius:inherit;"></div>
+                        <div id="map-search-bar" style="position:absolute; top:12px; left:12px; right:12px; z-index:10; display:flex; gap:8px;">
+                            <input type="text" id="mapSearchInput" placeholder="Search facilities..." onkeypress="if(event.key==='Enter') performMapSearch()" style="flex:1; padding:12px 18px; border-radius:24px; border:none; box-shadow:0 4px 10px rgba(0,0,0,0.15); font-size:0.95rem; outline:none;">
+                            <button onclick="performMapSearch()" style="padding:12px 18px; border-radius:24px; border:none; background:var(--primary); color:white; box-shadow:0 4px 10px rgba(0,0,0,0.15); cursor:pointer;"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                        <div style="position:absolute; inset:0; z-index:1; pointer-events:none;">
+                            <div class="map-overlay-layer" style="pointer-events:none;"></div>
+                            
+                            <!-- Markers -->
+                            <!-- Markers are now drawn via JS Kakao CustomOverlay -->
+                            
+                            <!-- Interaction Box -->
+                            <div class="map-bottom-sheet" id="mapInfoSheet" style="pointer-events:auto;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <div>
+                                        <h3 id="mapInfoTitle" style="font-size: 1.15rem; color: var(--text-dark);">Selected Area</h3>
+                                        <p id="mapInfoSubtitle" style="font-size: 0.9rem; color: var(--text-gray);">Tap markers on the map</p>
+                                    </div>
+                                    <div id="mapInfoDist" style="font-weight: 700; color: var(--primary);">--</div>
+                                </div>
+                                <button id="mapRouteBtn" style="width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; display: none;" onclick="startNavigation()">
+                                    <i class="fa-solid fa-location-arrow"></i> Navigate Here
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COURSE TAB -->
+                <div id="tab-course" class="tab-view course-list-tab">
+                    <div class="course-list-hero">
+                        <h2 id="txt-course-hero1" style="font-size: 1.4rem; font-weight: 800; margin-bottom: 8px;">AI Recommended Safe Routes</h2>
+                        <p style="font-size: 0.9rem; opacity: 0.9;">Filtered by current weather and transport congestion levels.</p>
+                    </div>
+
+                    <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+                        <span style="background: var(--text-dark); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Indoor Only</span>
+                        <span style="background: var(--primary); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);">Low Congestion</span>
+                    </div>
+
+                    <!-- List of items -->
+                    <div id="dynamic-course-list">
+                        <div style="padding: 20px; text-align: center; color: var(--text-gray);"><i class="fa-solid fa-spinner fa-spin"></i> Loading AI recommended safe indoor routes...</div>
+                    </div>
+                </div>
+
+                <!-- MY PROFILE TAB -->
+                <div id="tab-my" class="tab-view">
+                    <div class="profile-header">
+                        <div class="profile-avatar">JR</div>
+                        <div class="profile-name">John Traveler</div>
+                        <div style="color: var(--text-gray); font-size: 0.95rem;">Premium Explorer</div>
+                    </div>
+                    
+                    <div style="background: white; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;">
+                        <div class="profile-setting-item" onclick="openLangModal()">
+                            <div style="display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--text-dark);">
+                                <i class="fa-solid fa-globe" style="color: var(--primary); font-size: 1.2rem; width: 24px;"></i> Language
+                            </div>
+                            <div style="color: var(--text-gray); font-size: 0.9rem;"><span id="activeLangText">English</span> <i class="fa-solid fa-chevron-right" style="margin-left: 8px;"></i></div>
+                        </div>
+                        <div class="profile-setting-item" onclick="openSavedCoursesModal()">
+                            <div style="display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--text-dark);">
+                                <i class="fa-solid fa-bookmark" style="color: var(--primary); font-size: 1.2rem; width: 24px;"></i> Saved Courses
+                            </div>
+                            <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                        </div>
+                        <div class="profile-setting-item" onclick="showToast('Emergency Contacts verified')">
+                            <div style="display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--text-dark);">
+                                <i class="fa-solid fa-truck-medical" style="color: var(--danger); font-size: 1.2rem; width: 24px;"></i> Emergency Contacts
+                            </div>
+                            <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                        </div>
+                        <div class="profile-setting-item" onclick="toggleNotifications()">
+                            <div style="display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--text-dark);">
+                                <i class="fa-regular fa-bell" style="color: var(--primary); font-size: 1.2rem; width: 24px;"></i> Notifications
+                            </div>
+                            <div id="txt-notif-status" style="font-size: 0.85rem; color: #10b981; font-weight: 700; transition: color 0.3s;">ON</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MONITORING TAB -->
+                <div id="tab-monitor" class="tab-view" style="padding: 24px; padding-bottom: 40px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-dark);">
+                            <i class="fa-solid fa-server" style="color: var(--primary);"></i> <span>System Ops</span>
+                        </h2>
+                        <span style="font-size: 0.8rem; background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: 12px; font-weight: 700;">
+                            <span style="display: inline-block; width: 6px; height: 6px; background: #10b981; border-radius: 50%; margin-right: 4px;"></span>LIVE
+                        </span>
+                    </div>
+
+                    <!-- Grafana-style Stats -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+                        <div style="background: var(--white); padding: 16px; border-radius: 20px; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05);">
+                            <div style="font-size: 0.8rem; color: var(--text-gray); font-weight: 600; margin-bottom: 8px;">CPU Usage</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-dark);">38<span style="font-size: 0.9rem; color: var(--text-gray);">%</span></div>
+                            <div style="height: 4px; background: #f1f5f9; border-radius: 2px; margin-top: 8px;"><div style="width: 38%; height: 100%; background: #34d399; border-radius: 2px;"></div></div>
+                        </div>
+                        <div style="background: var(--white); padding: 16px; border-radius: 20px; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05);">
+                            <div style="font-size: 0.8rem; color: var(--text-gray); font-weight: 600; margin-bottom: 8px;">Active Users</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; color: #4F46E5;">890</div>
+                            <div style="font-size: 0.75rem; color: #10b981; font-weight: 600; margin-top: 4px;"><i class="fa-solid fa-arrow-up"></i> 12% today</div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--white); border-radius: 20px; box-shadow: var(--shadow-sm); padding: 20px; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 20px;">
+                        <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">Traffic Metrics (Req/s)</h3>
+                        <div style="height: 120px; position: relative; border-bottom: 1px dashed #e2e8f0; display: flex; align-items: flex-end; gap: 8px; padding-bottom: 10px;">
+                            <div style="width: 100%; height: 40%; background: linear-gradient(180deg, var(--primary) 0%, transparent 100%); border-radius: 4px; opacity: 0.8;"></div>
+                            <div style="width: 100%; height: 60%; background: linear-gradient(180deg, var(--primary) 0%, transparent 100%); border-radius: 4px; opacity: 0.8;"></div>
+                            <div style="width: 100%; height: 85%; background: linear-gradient(180deg, var(--primary) 0%, transparent 100%); border-radius: 4px; opacity: 0.8;"></div>
+                            <div style="width: 100%; height: 50%; background: linear-gradient(180deg, var(--primary) 0%, transparent 100%); border-radius: 4px; opacity: 0.8;"></div>
+                            <div style="width: 100%; height: 75%; background: linear-gradient(180deg, var(--primary) 0%, transparent 100%); border-radius: 4px; opacity: 0.8;"></div>
+                            <div style="width: 100%; height: 90%; background: linear-gradient(180deg, var(--primary) 0%, transparent 100%); border-radius: 4px; opacity: 0.8;"></div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--white); border-radius: 20px; box-shadow: var(--shadow-sm); padding: 16px; border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: #fff1f2; color: #e11d48; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem;"><i class="fa-solid fa-database"></i></div>
+                            <div>
+                                <div style="font-weight: 700; color: var(--text-dark); font-size: 0.95rem;">Database Health</div>
+                                <div style="font-size: 0.8rem; color: var(--text-gray);">Redis + PostgreSQL</div>
+                            </div>
+                        </div>
+                        <span style="font-size: 0.85rem; background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 8px; font-weight: 600;">Good</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Floating Nav & Action -->
+            <div class="sos-fab" id="sosBtn">
+                <div class="sos-ripple"></div>
+                <div class="sos-ripple"></div>
+                <i class="fa-solid fa-phone-volume"></i>
+            </div>
+
+            <div class="bottom-nav">
+                <div class="nav-item active" id="nav-home" onclick="switchTab('home')">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </div>
+                <div class="nav-item" id="nav-map" onclick="switchTab('map')">
+                    <i class="fa-solid fa-map"></i>
+                    <span>Map</span>
+                </div>
+                <div class="nav-item" id="nav-course" onclick="switchTab('course')">
+                    <i class="fa-solid fa-route"></i>
+                    <span>Course</span>
+                </div>
+                <div class="nav-item" id="nav-my" onclick="switchTab('my')">
+                    <i class="fa-solid fa-user"></i>
+                    <span>My</span>
+                </div>
+                <div class="nav-item" id="nav-monitor" onclick="switchTab('monitor')">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Ops</span>
+                </div>
+            </div>
+            
+            <!-- Toast UI -->
+            <div class="toast" id="systemToast">Notification</div>
+
+            <!-- SOS Modal -->
+            <div class="modal-overlay" id="sosModal">
+                <div class="modal-content">
+                    <div class="modal-title" id="txt-sos-title">
+                        <i class="fa-solid fa-triangle-exclamation"></i> <span>Emergency SOS</span>
+                    </div>
+                    <div class="modal-desc">
+                        Are you experiencing a medical emergency or heatstroke? Connect to English-speaking emergency services immediately.
+                    </div>
+                    <button class="btn-call" onclick="showToast('Calling 119 Emergency Response...'); closeModal();">
+                        <i class="fa-solid fa-phone"></i> Call 119
+                    </button>
+                    <button class="btn-close" onclick="closeModal()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Language Modal -->
+            <div class="modal-overlay" id="langModal">
+                <div class="modal-content">
+                    <div class="modal-title" style="color: var(--text-dark);">
+                        <i class="fa-solid fa-globe" style="color: var(--primary);"></i> Language Settings
+                    </div>
+                    <div class="modal-desc" style="margin-bottom: 15px;">
+                        Select your preferred language.
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                        <button style="padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 600; cursor: pointer; text-align: left;" onclick="selectLanguage('English')">English</button>
+                        <button style="padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 600; cursor: pointer; text-align: left;" onclick="selectLanguage('한국어')">한국어</button>
+                        <button style="padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 600; cursor: pointer; text-align: left;" onclick="selectLanguage('中文')">中文</button>
+                        <button style="padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 600; cursor: pointer; text-align: left;" onclick="selectLanguage('日本語')">日本語</button>
+                    </div>
+                    <button class="btn-close" onclick="closeLangModal()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Saved Courses Modal -->
+            <div class="modal-overlay" id="savedCoursesModal">
+                <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+                    <div class="modal-title" style="color: var(--text-dark);">
+                        <i class="fa-solid fa-bookmark" style="color: var(--primary);"></i> Saved Courses
+                    </div>
+                    <div class="modal-desc" style="margin-bottom: 15px;">
+                        Your recently saved safe routes:
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; display: flex; gap: 12px; align-items: center; cursor: pointer; box-shadow: var(--shadow-sm);" onclick="showToast('Loading Gyeongbokgung Walk...'); closeSavedCoursesModal(); switchTab('course');">
+                            <div style="width: 50px; height: 50px; border-radius: 12px; background-image: url('https://images.unsplash.com/photo-1617471676644-8d9e60ed4cf9?auto=format&fit=crop&w=150&q=80'); background-size: cover;"></div>
+                            <div style="flex:1;">
+                                <h4 style="font-size: 1rem; color: var(--text-dark); margin-bottom: 4px;">Gyeongbokgung Walk</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-gray);"><i class="fa-solid fa-location-dot"></i> Jongno-gu • 2.4km</span>
+                            </div>
+                        </div>
+
+                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; display: flex; gap: 12px; align-items: center; cursor: pointer; box-shadow: var(--shadow-sm);" onclick="showToast('Loading Hongdae Night Tour...'); closeSavedCoursesModal(); switchTab('course');">
+                            <div style="width: 50px; height: 50px; border-radius: 12px; background-image: url('https://images.unsplash.com/photo-1591585860773-61fcbe42e20d?auto=format&fit=crop&w=150&q=80'); background-size: cover;"></div>
+                            <div style="flex:1;">
+                                <h4 style="font-size: 1rem; color: var(--text-dark); margin-bottom: 4px;">Hongdae Night Tour</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-gray);"><i class="fa-solid fa-location-dot"></i> Mapo-gu • 3.1km</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-close" onclick="closeSavedCoursesModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+            // Remove active from nav
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            // Activate requested
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('nav-' + tabId).classList.add('active');
+            
+            // Haptic
+            triggerHaptic();
+
+            // Scroll to top
+            document.getElementById('appContent').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        let userCurrentLat = 37.566826;
+        let userCurrentLon = 126.9786567;
+
+        function findNearestShelter() {
+            switchTab('map');
+            showToast('Locating nearest cooling shelter...');
+            setTimeout(() => {
+                openMapDetails('Gangnam Station Shelter', 'Cooling Center', '120m', userCurrentLat + 0.001, userCurrentLon + 0.001);
+            }, 500);
+        }
+
+        let selectedTargetCoords = null;
+        // Map Interactions
+        function openMapDetails(title, subtitle, dist, lat, lon) {
+            document.getElementById('mapInfoTitle').innerText = title;
+            document.getElementById('mapInfoSubtitle').innerText = subtitle;
+            document.getElementById('mapInfoDist').innerHTML = `<span>${parseFloat(dist) || ''}</span> <span>m</span>`;
+            document.getElementById('mapRouteBtn').style.display = 'block';
+            if(lat && lon) { selectedTargetCoords = { title, lat, lon }; }
+            triggerHaptic();
+        }
+
+        function startNavigation() {
+            if (selectedTargetCoords) {
+                const url = `https://map.kakao.com/link/to/${encodeURIComponent(selectedTargetCoords.title)},${selectedTargetCoords.lat},${selectedTargetCoords.lon}`;
+                window.open(url, '_blank');
+            } else {
+                showToast('Starting navigation...');
+            }
+        }
+
+        // SOS Modal
+        const sosModal = document.getElementById('sosModal');
+        document.getElementById('sosBtn').addEventListener('click', () => {
+            sosModal.classList.add('active');
+            triggerHaptic('heavy');
+        });
+        
+        function closeModal() {
+            sosModal.classList.remove('active');
+        }
+
+        // Additional Modals Logic
+        function openLangModal() {
+            document.getElementById('langModal').classList.add('active');
+            triggerHaptic();
+        }
+        function closeLangModal() {
+            document.getElementById('langModal').classList.remove('active');
+        }
+        
+        const translations = {
+            '한국어': {
+                'Home': '홈', 'Map': '지도', 'Course': '안전 코스', 'My': '내 정보', 'Ops': '운영(Ops)',
+                'System Ops': '시스템 모니터링', 'LIVE': '실시간', 'CPU Usage': 'CPU 사용량', 'Active Users': '활성 사용자',
+                'Traffic Metrics (Req/s)': '트래픽(Req/s)', 'Database Health': '데이터베이스 상태', 'Good': '양호',
+                'Indoor Alternatives': '실내 대체 장소', 'Nearby Facilities': '인근 시설',
+                'AI Recommended Safe Routes': 'AI 추천 안전 경로', 'Emergency SOS': '긴급 SOS',
+                'Language': '언어 설정', 'Saved Courses': '저장된 코스', 'Emergency Contacts': '비상 연락망', 'Notifications': '알림',
+                'Language Settings': '언어 설정', 'Select your preferred language.': '선호하는 언어를 선택해주세요.',
+                'Are you experiencing a medical emergency or heatstroke? Connect to English-speaking emergency services immediately.': '의료 응급 상황이나 일사병을 겪고 계신가요? 한국어 구급 서비스에 즉시 연결됩니다.',
+                'Call 119': '119 긴급 전화 연결', 'Cancel': '취소', 'Close': '닫기',
+                'Your recently saved safe routes:': '최근 저장하신 안전 경로입니다:',
+                'Search facilities...': '시설 검색...', 'Find Cooling Shelter': '무더위 쉼터 경로 찾기',
+                'Filtered by current weather and transport congestion levels.': '현재 날씨와 교통 혼잡도를 기준으로 맞춰진 정보입니다.',
+                'Indoor Only': '실내 시설 우선', 'Low Congestion': '혼잡도 낮음 우선',
+                'Selected Area': '선택된 구역', 'Tap markers on the map': '지도에서 마커를 탭하세요',
+                'Navigate Here': '경로 안내 시작', 'See all': '모두 보기',
+                'Fetching real-time local weather data...': '실시간 날씨 데이터를 가져오는 중...',
+                'Loading Weather': '지역 날씨 준비 중',
+                'Extreme Heat Warning': '폭염 경보 발령', 'Heat Advisory': '폭염 주의보', 'Safe Weather': '정상 날씨',
+                'High risk of heatstroke today. Indoor activities strongly advised.': '일사병 위험이 높습니다. 가급적 실내에서 활동해 주십시오.',
+                "It's getting hot. Remember to stay hydrated.": '온도가 매우 높습니다. 충분한 수분을 섭취해 주십시오.',
+                "Current local weather is relatively safe.": '현재 지역 날씨는 상대적으로 안전합니다.'
+            , 'Culture & Indoor': '문화 & 실내', 'Shopping > Mall': '쇼핑 > 복합몰', 'Store > CS': '상점 > 편의점', 'Culture > Museum': '문화 > 박물관/미술관', 'Indoor Facility': '실내 시설', 'High AC': '강력 냉방', 'Indoor': '실내', 'L1 (Very Low)': 'L1 (매우 여유)', 'L1 (Comfortable)': 'L1 (쾌적)', 'L2 (Low)': 'L2 (여유)', 'm away': 'm 거리', 'km': 'km', 'Routing to': '경로 안내:', 'Search Result': '검색 결과', 'm': 'm'
+            },
+            '中文': {
+                'Home': '首页', 'Map': '地图', 'Course': '路线', 'My': '我的', 'Ops': '系统运维',
+                'System Ops': '系统操作', 'LIVE': '实况', 'CPU Usage': 'CPU 使用率', 'Active Users': '活跃用户',
+                'Traffic Metrics (Req/s)': '流量指标', 'Database Health': '数据库健康状态', 'Good': '良好',
+                'Indoor Alternatives': '室内替代场所', 'Nearby Facilities': '附近设施',
+                'AI Recommended Safe Routes': 'AI推荐的安全路线', 'Emergency SOS': '紧急求救 SOS',
+                'Language': '语言设置', 'Saved Courses': '已保存的路线', 'Emergency Contacts': '紧急联系人', 'Notifications': '通知',
+                'Language Settings': '语言设置', 'Select your preferred language.': '请选择您偏好的语言。',
+                'Are you experiencing a medical emergency or heatstroke? Connect to English-speaking emergency services immediately.': '您遇到医疗紧急情况或中暑了吗？立即联系紧急服务中心。',
+                'Call 119': '拨打 119 紧急电话', 'Cancel': '取消', 'Close': '关闭',
+                'Your recently saved safe routes:': '您最近保存的安全路线：',
+                'Search facilities...': '搜索设施...', 'Find Cooling Shelter': '寻找避暑中心',
+                'Filtered by current weather and transport congestion levels.': '根据当前天气和交通拥堵程度筛选。',
+                'Indoor Only': '仅限室内', 'Low Congestion': '低拥堵优先',
+                'Selected Area': '所选区域', 'Tap markers on the map': '点击地图上的标记',
+                'Navigate Here': '导航到这里', 'See all': '查看全部',
+                'Fetching real-time local weather data...': '正在获取实时当地天气数据...',
+                'Loading Weather': '正在加载天气',
+                'Extreme Heat Warning': '极端高温警告', 'Heat Advisory': '高温提示', 'Safe Weather': '安全天气',
+                'High risk of heatstroke today. Indoor activities strongly advised.': '今天中暑风险很高。强烈建议在室内活动。',
+                "It's getting hot. Remember to stay hydrated.": '天气变热了。记得多喝水。',
+                "Current local weather is relatively safe.": '目前当地天气相对安全。'
+            , 'Culture & Indoor': '文化 & 室内', 'Shopping > Mall': '购物 > 商场', 'Store > CS': '商店 > 便利店', 'Culture > Museum': '文化 > 博物馆', 'Indoor Facility': '室内设施', 'High AC': '强冷气', 'Indoor': '室内', 'L1 (Very Low)': 'L1 (非常空闲)', 'L1 (Comfortable)': 'L1 (舒适)', 'L2 (Low)': 'L2 (较低拥堵)', 'm away': 'm 距离', 'km': 'km', 'Routing to': '导航至:', 'Search Result': '搜索结果', 'm': 'm'
+            },
+            '日本語': {
+                'Home': 'ホーム', 'Map': 'マップ', 'Course': 'コース', 'My': 'マイ', 'Ops': '監視',
+                'System Ops': 'システム管理', 'LIVE': 'ライブ表示', 'CPU Usage': 'CPU 使用率', 'Active Users': 'アクティブユーザー',
+                'Traffic Metrics (Req/s)': 'トラフィック指標', 'Database Health': 'DB 正常性', 'Good': '良好',
+                'Indoor Alternatives': '屋内の代わりになる場所', 'Nearby Facilities': '周辺の施設',
+                'AI Recommended Safe Routes': 'AI推奨の安全ルート', 'Emergency SOS': '緊急 SOS',
+                'Language': '言語設定', 'Saved Courses': '保存済みコース', 'Emergency Contacts': '緊急連絡先', 'Notifications': '通知設定',
+                'Language Settings': '言語設定', 'Select your preferred language.': '希望の言語を選択してください。',
+                'Are you experiencing a medical emergency or heatstroke? Connect to English-speaking emergency services immediately.': '熱中症などの医療上の緊急事態ですか？すぐに119番通報します。',
+                'Call 119': '119 番通報', 'Cancel': 'キャンセル', 'Close': '閉じる',
+                'Your recently saved safe routes:': '最近保存した安全ルート：',
+                'Search facilities...': '施設を検索...', 'Find Cooling Shelter': '避暑地を見つける',
+                'Filtered by current weather and transport congestion levels.': '現在の天候と交通渋滞レベルによってフィルタリングされています。',
+                'Indoor Only': '屋内重視', 'Low Congestion': '低混雑',
+                'Selected Area': '選択エリア', 'Tap markers on the map': 'マップのマーカーをタップ',
+                'Navigate Here': 'ここへナビゲート', 'See all': 'すべて見る',
+                'Fetching real-time local weather data...': '現地の天気データを取得中...',
+                'Loading Weather': '天気データロード中',
+                'Extreme Heat Warning': '猛暑警報', 'Heat Advisory': '高温注意報', 'Safe Weather': '安全な天気',
+                'High risk of heatstroke today. Indoor activities strongly advised.': '本日は熱中症の危険が高いため、屋内での活動を強くお勧めします。',
+                "It's getting hot. Remember to stay hydrated.": '暑くなってきました。水分補給を心がけてください。',
+                "Current local weather is relatively safe.": '現在の現地の天候は比較的安全です。'
+            , 'Culture & Indoor': '文化 & 屋内', 'Shopping > Mall': 'ショッピング > モール', 'Store > CS': 'ショップ > コンビニ', 'Culture > Museum': '文化 > 博物館', 'Indoor Facility': '屋内施設', 'High AC': '冷房完備', 'Indoor': '屋内', 'L1 (Very Low)': 'L1 (非常に空いている)', 'L1 (Comfortable)': 'L1 (快適)', 'L2 (Low)': 'L2 (空いている)', 'm away': 'm 先', 'km': 'km', 'Routing to': 'ルート案内:', 'Search Result': '検索結果', 'm': 'm'
+            }
+        };
+
+        window.currentGlobalLang = 'English';
+
+        // Translate helper function
+        function t(text) {
+            if (window.currentGlobalLang === 'English') return text;
+            const dict = translations[window.currentGlobalLang];
+            if (!dict) return text;
+            
+            // Allow translating strings that might have variables by matching keys explicitly 
+            // e.g. "Seoul, Gangnam" - skipped if not in dict
+            
+            return dict[text.trim()] || text;
+        }
+
+        // Deep DOM traversal to replace strings safely
+        function applyTranslationsToDOM(lang, node) {
+            if (node.nodeType === 3) {
+                const text = (node._originalEnglish || node.nodeValue).trim();
+                if (text && translations['한국어'][text] !== undefined) {
+                    if (!node._originalEnglish) {
+                         node._originalEnglish = text;
+                    }
+                    const translated = (lang === 'English') ? text : translations[lang][text] || text;
+                    node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), translated);
+                }
+            } else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE' && node.id !== 'activeLangText') {
+                if (node.tagName === 'INPUT' && node.placeholder) {
+                    const ph = (node._originalPlaceholder || node.placeholder).trim();
+                    if (translations['한국어'][ph] !== undefined) {
+                         if (!node._originalPlaceholder) node._originalPlaceholder = ph;
+                         node.placeholder = (lang === 'English') ? ph : translations[lang][ph] || ph;
+                    }
+                }
+                for (let child of node.childNodes) {
+                    applyTranslationsToDOM(lang, child);
+                }
+            }
+        }
+
+        function selectLanguage(lang) {
+            document.getElementById('activeLangText').textContent = lang;
+            closeLangModal();
+            window.currentGlobalLang = lang;
+            
+            // Translate the entire DOM body text nodes dynamically
+            applyTranslationsToDOM(lang, document.body);
+
+            // Need to forcefully rewrite dynamic sections that might have been dynamically altered
+            // E.g. we can just dispatch a custom event if we want, or call fetching logic again.
+            // But applyTranslationsToDOM works for whatever is currently on screen!
+            
+            showToast(lang === '한국어' ? '언어가 변경되었습니다' : (lang === '日本語' ? '言語が変更されました' : (lang === '中文' ? '语言已更改' : 'Language applied!')));
+        }
+
+
+        function openSavedCoursesModal() {
+            document.getElementById('savedCoursesModal').classList.add('active');
+            triggerHaptic();
+        }
+        function closeSavedCoursesModal() {
+            document.getElementById('savedCoursesModal').classList.remove('active');
+        }
+
+        let notificationsEnabled = true;
+        function toggleNotifications() {
+            notificationsEnabled = !notificationsEnabled;
+            const statusTxt = document.getElementById('txt-notif-status');
+            if(notificationsEnabled) {
+                statusTxt.textContent = 'ON';
+                statusTxt.style.color = '#10b981';
+                showToast('Notifications Enabled');
+            } else {
+                statusTxt.textContent = 'OFF';
+                statusTxt.style.color = '#94a3b8';
+                showToast('Notifications Disabled');
+            }
+            triggerHaptic();
+        }
+
+        // Click outside to close modal
+        sosModal.addEventListener('click', (e) => {
+            if(e.target === sosModal) closeModal();
+        });
+        document.getElementById('langModal').addEventListener('click', (e) => {
+            if(e.target === document.getElementById('langModal')) closeLangModal();
+        });
+        document.getElementById('savedCoursesModal').addEventListener('click', (e) => {
+            if(e.target === document.getElementById('savedCoursesModal')) closeSavedCoursesModal();
+        });
+
+        // Toast System
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('systemToast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2500);
+            triggerHaptic();
+        }
+
+        // Haptic Feedback Simulation
+        function triggerHaptic(type = 'light') {
+            if (navigator.vibrate) {
+                if(type === 'heavy') navigator.vibrate([100, 50, 100]);
+                else navigator.vibrate(50);
+            }
+        }
+
+        // Location & Kakao Map Init
+        let kakaoMap = null;
+        function drawMeMarker(lat, lon) {
+            const meEl = document.createElement('div');
+            meEl.className = 'map-marker me';
+            meEl.innerHTML = '<i class="fa-solid fa-street-view"></i>';
+            meEl.style = "position:relative; pointer-events:auto;";
+            meEl.onclick = () => showToast('Your current location');
+            new kakao.maps.CustomOverlay({ position: new kakao.maps.LatLng(lat, lon), content: meEl, map: kakaoMap });
+        }
+
+        let currentOverlayMarkers = [];
+        function clearMapMarkers() {
+            currentOverlayMarkers.forEach(m => m.setMap(null));
+            currentOverlayMarkers = [];
+        }
+
+        function fetchWeatherInfo(lat, lon) {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code&timezone=auto`;
+            fetch(url)
+              .then(res => res.json())
+              .then(data => {
+                  if(data && data.current) {
+                      const temp = Math.round(data.current.temperature_2m);
+                      const feelsLike = Math.round(data.current.apparent_temperature);
+                      
+                      let alertLevel = "Safe Weather";
+                      let alertIcon = "fa-sun";
+                      let alertTitle = `${temp}°C (Feels like ${feelsLike}°C)`;
+                      let alertDesc = "Current local weather is relatively safe.";
+                      let badgeColor = "#10b981"; // green
+
+                      if (feelsLike >= 33) {
+                          alertLevel = "Extreme Heat Warning";
+                          alertIcon = "fa-triangle-exclamation";
+                          alertDesc = "High risk of heatstroke today. Indoor activities strongly advised.";
+                          badgeColor = "#ef4444"; // red
+                      } else if (feelsLike >= 30) {
+                          alertLevel = "Heat Advisory";
+                          alertIcon = "fa-temperature-arrow-up";
+                          alertDesc = "It's getting hot. Remember to stay hydrated.";
+                          badgeColor = "#f59e0b"; // yellow
+                      }
+
+                      const alertPanel = document.getElementById('dynamic-weather-alert');
+                      if(alertPanel) {
+                          alertPanel.innerHTML = `
+                              <div class="alert-badge" style="background:${badgeColor}20; color:${badgeColor}; border:1px solid ${badgeColor}40;"><i class="fa-solid ${alertIcon}"></i> ${alertLevel}</div>
+                              <div class="alert-title">${alertTitle}</div>
+                              <div class="alert-desc">${alertDesc}</div>
+                              <button class="alert-action" onclick="findNearestShelter()">
+                                  <i class="fa-solid fa-route"></i> Find Cooling Shelter
+                              </button>
+                          `;
+                      }
+                  }
+              }).catch(err => console.error(err));
+        }
+
+        function fetchDynamicHomeData(lat, lon) {
+            if (typeof kakao === 'undefined' || !kakao || !kakao.maps || !kakao.maps.services) {
+                // If Kakao is blocked by ORB/CORS, render fallbacks directly
+                renderIndoorAlternatives([
+                    { place_name: "COEX Mall", distance: "1200", category_name: "Shopping > Mall", y: 37.5116, x: 127.0591 },
+                    { place_name: "The Hyundai Seoul", distance: "4500", category_name: "Shopping > Mall", y: 37.5258, x: 126.9284 },
+                    { place_name: "Lotte World Mall", distance: "3000", category_name: "Shopping > Mall", y: 37.5132, x: 127.1025 }
+                ]);
+                const fallbackFacilities = [
+                    { place_name: "GS25 Gangnam Center", distance: "150", category_name: "Store > CS", y: 37.498, x: 127.027 },
+                    { place_name: "CU Station Branch", distance: "300", category_name: "Store > CS", y: 37.499, x: 127.028 }
+                ];
+                renderNearbyFacilities(fallbackFacilities);
+                
+                const fallbackCourses = [
+                    { place_name: "National Museum of Korea", category_name: "Culture > Museum", y: 37.5239, x: 126.9805 },
+                    { place_name: "Seoul Museum of Art", category_name: "Culture > Museum", y: 37.5641, x: 126.9738 },
+                    { place_name: "Leeum Museum of Art", category_name: "Culture > Museum", y: 37.5372, x: 126.9998 }
+                ];
+                renderCourseList(fallbackCourses);
+                return;
+            }
+
+            const ps = new kakao.maps.services.Places();
+            const center = new kakao.maps.LatLng(lat, lon);
+
+            // Indoor Alternatives
+            ps.keywordSearch('쇼핑몰', (data, status) => {
+                if (status === kakao.maps.services.Status.OK) {
+                    renderIndoorAlternatives(data.slice(0, 4));
+                } else {
+                    ps.keywordSearch('백화점', (data2, status2) => {
+                        if (status2 === kakao.maps.services.Status.OK) {
+                            renderIndoorAlternatives(data2.slice(0, 4));
+                        } else {
+                            renderIndoorAlternatives([
+                                { place_name: "COEX Mall", distance: "1200", category_name: "Shopping > Mall", y: 37.5116, x: 127.0591 },
+                                { place_name: "The Hyundai Seoul", distance: "4500", category_name: "Shopping > Mall", y: 37.5258, x: 126.9284 },
+                                { place_name: "Lotte World Mall", distance: "3000", category_name: "Shopping > Mall", y: 37.5132, x: 127.1025 }
+                            ]);
+                        }
+                    }, {location: center, radius: 5000});
+                }
+            }, {location: center, radius: 5000});
+
+            // Nearby Facilities (Convenience stores - CS2)
+            ps.categorySearch('CS2', (data, status) => {
+                if (status === kakao.maps.services.Status.OK) {
+                    renderNearbyFacilities(data.slice(0, 3));
+                    drawFacilityMarkers(data.slice(0, 5));
+                } else {
+                    const fallbackFacilities = [
+                        { place_name: "GS25 Gangnam Center", distance: "150", category_name: "Store > CS", y: 37.498, x: 127.027 },
+                        { place_name: "CU Station Branch", distance: "300", category_name: "Store > CS", y: 37.499, x: 127.028 }
+                    ];
+                    renderNearbyFacilities(fallbackFacilities);
+                    drawFacilityMarkers(fallbackFacilities);
+                }
+            }, {location: center, radius: 1000, sort: kakao.maps.services.SortBy.DISTANCE});
+
+            // Courses logic (Low Congestion Museums/Exhibits)
+            ps.keywordSearch('박물관', (data, status) => {
+                const fallbackCourses = [
+                    { place_name: "National Museum of Korea", category_name: "Culture > Museum", y: 37.5239, x: 126.9805 },
+                    { place_name: "Seoul Museum of Art", category_name: "Culture > Museum", y: 37.5641, x: 126.9738 },
+                    { place_name: "Leeum Museum of Art", category_name: "Culture > Museum", y: 37.5372, x: 126.9998 }
+                ];
+                if(status === kakao.maps.services.Status.OK) {
+                    let combined = data.slice(0, 3);
+                    ps.keywordSearch('미술관', (data2, status2) => {
+                        if(status2 === kakao.maps.services.Status.OK) { combined = combined.concat(data2.slice(0, 2)); }
+                        renderCourseList(combined.length > 0 ? combined : fallbackCourses);
+                    }, {location: center, radius: 8000});
+                } else {
+                    renderCourseList(fallbackCourses);
+                }
+            }, {location: center, radius: 8000});
+        }
+
+        function renderCourseList(places) {
+            const listDiv = document.getElementById('dynamic-course-list');
+            if (!listDiv) return;
+            listDiv.innerHTML = '';
+            
+            // Unsplash Images for Museums / Arts
+            const fallbackImages = [
+                "https://images.unsplash.com/photo-1617471676644-8d9e60ed4cf9?auto=format&fit=crop&w=300&q=80",
+                "https://images.unsplash.com/photo-1572953109213-3be62398ce95?auto=format&fit=crop&w=300&q=80",
+                "https://images.unsplash.com/photo-1518998053401-b4ec2caba897?auto=format&fit=crop&w=300&q=80",
+                "https://images.unsplash.com/photo-1544473859-002dcac7e2dc?auto=format&fit=crop&w=300&q=80"
+            ];
+
+            places.forEach((place, i) => {
+                const bgImg = fallbackImages[i % fallbackImages.length];
+                // Synthesize congestion levels
+                const congestions = ['L1 (Very Low)', 'L1 (Comfortable)', 'L2 (Low)'];
+                const randCongestion = congestions[i % congestions.length];
+
+                const card = document.createElement('div');
+                card.className = 'vertical-course-card';
+                card.onclick = () => {
+                    selectedTargetCoords = { title: place.place_name, lat: place.y, lon: place.x };
+                    showToast(t('Routing to') + ' ' + place.place_name + '...');
+                    setTimeout(startNavigation, 800);
+                };
+
+                card.innerHTML = `
+                    <div class="v-card-img" style="background-image: url('${bgImg}');"></div>
+                    <div class="v-card-content">
+                        <span style="font-size: 0.75rem; color: var(--primary); font-weight: 700; margin-bottom: 4px;">Culture & Indoor</span>
+                        <h4 style="font-size: 1.05rem; color: var(--text-dark); font-weight: 800; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${place.place_name}</h4>
+                        <div style="font-size: 0.8rem; color: var(--text-gray); display: flex; gap: 10px;">
+                            <span style="color: #10b981; font-weight: 600;"><i class="fa-solid fa-user-group"></i> ${randCongestion}</span>
+                            <span><i class="fa-solid fa-snowflake"></i> High AC</span>
+                        </div>
+                    </div>
+                `;
+                listDiv.appendChild(card);
+            });
+        }
+
+        function renderIndoorAlternatives(places) {
+            const scrollDiv = document.getElementById('dynamic-indoor-alts');
+            if (!scrollDiv) return;
+            scrollDiv.innerHTML = ''; 
+            
+            const fallbackImages = [
+                "https://images.unsplash.com/photo-1519567241046-7f154fbdf403?auto=format&fit=crop&q=80&w=400",
+                "https://images.unsplash.com/photo-1541845157-a6d2d100c931?auto=format&fit=crop&q=80&w=400",
+                "https://images.unsplash.com/photo-1563298723-dcfebaa392e3?auto=format&fit=crop&q=80&w=400"
+            ];
+
+            places.forEach((place, i) => {
+                const bgImg = fallbackImages[i % fallbackImages.length];
+                const distParam = place.distance ? (place.distance / 1000).toFixed(1) : '';
+                
+                const card = document.createElement('div');
+                card.className = 'course-card';
+                card.onclick = () => {
+                    selectedTargetCoords = { title: place.place_name, lat: place.y, lon: place.x };
+                    startNavigation();
+                };
+                
+                card.innerHTML = `
+                    <div class="course-img" style="background-image: url('${bgImg}');">
+                        <div class="course-badge"><i class="fa-solid fa-temperature-arrow-down"></i> Indoor</div>
+                    </div>
+                    <div class="course-info">
+                        <div class="course-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${place.place_name}</div>
+                        <p style="font-size:0.85rem; color:var(--text-gray); margin-bottom: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${place.category_group_name || 'Indoor Facility'}</p>
+                        <div class="course-stats">
+                            <div class="stat-item"><i class="fa-solid fa-person-walking"></i> <span>${distParam}</span> <span style="margin-left: 2px;">km</span></div>
+                        </div>
+                    </div>
+                `;
+                scrollDiv.appendChild(card);
+            });
+        }
+
+        function renderNearbyFacilities(places) {
+            const listDiv = document.getElementById('dynamic-facilities');
+            if (!listDiv) return;
+            listDiv.innerHTML = '';
+            places.forEach(place => {
+                const item = document.createElement('div');
+                item.className = 'facility-item';
+                item.onclick = () => {
+                    switchTab('map');
+                    openMapDetails(place.place_name, place.category_group_name, place.distance + 'm', place.y, place.x);
+                    kakaoMap.setCenter(new kakao.maps.LatLng(place.y, place.x));
+                };
+                
+                item.innerHTML = `
+                    <div class="facility-icon icon-shelter">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div class="facility-details">
+                        <div class="facility-name">${place.place_name}</div>
+                        <div class="facility-dist" style="color:var(--primary);"><i class="fa-solid fa-location-arrow"></i> <span>${place.distance}</span> <span>m away</span></div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="color:#cbd5e1;"></i>
+                `;
+                listDiv.appendChild(item);
+            });
+        }
+
+        function drawFacilityMarkers(places) {
+            places.forEach(place => {
+                const el = document.createElement('div');
+                el.className = 'map-marker shelter';
+                el.innerHTML = '<i class="fa-solid fa-store"></i>';
+                el.style = "position:relative; pointer-events:auto; color: #15803d; border-color: #15803d;";
+                el.onclick = () => openMapDetails(place.place_name, place.category_group_name, place.distance+'m', place.y, place.x);
+                
+                const marker = new kakao.maps.CustomOverlay({
+                    position: new kakao.maps.LatLng(place.y, place.x),
+                    content: el,
+                    map: kakaoMap
+                });
+                currentOverlayMarkers.push(marker);
+            });
+        }
+
+        function performMapSearch() {
+            const keyword = document.getElementById('mapSearchInput').value;
+            if(!keyword.trim()) return showToast('Please enter a keyword');
+            
+            if(!kakaoMap) return;
+            const ps = new kakao.maps.services.Places();
+            ps.keywordSearch(keyword, (data, status) => {
+                if(status === kakao.maps.services.Status.OK) {
+                    clearMapMarkers();
+                    const bounds = new kakao.maps.LatLngBounds();
+                    
+                    data.forEach((place) => {
+                        const latlng = new kakao.maps.LatLng(place.y, place.x);
+                        bounds.extend(latlng);
+                        
+                        const el = document.createElement('div');
+                        el.className = 'map-marker';
+                        el.innerHTML = '<i class="fa-solid fa-location-dot"></i>';
+                        el.style = "position:relative; pointer-events:auto; color: #4338ca; border-color: #4338ca;";
+                        el.onclick = () => openMapDetails(place.place_name, place.category_group_name || 'Search Result', place.distance ? place.distance+'m' : '', place.y, place.x);
+                        
+                        const marker = new kakao.maps.CustomOverlay({
+                            position: latlng,
+                            content: el,
+                            map: kakaoMap
+                        });
+                        currentOverlayMarkers.push(marker);
+                    });
+                    kakaoMap.setBounds(bounds);
+                    showToast(`Found ${data.length} results`);
+                } else {
+                    showToast('No results found.');
+                }
+            }, { location: kakaoMap.getCenter(), radius: 5000 });
+        }
+
+        function initNetworkAndMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    // FORCE SEOUL DATA mapping as per requirements: 강남역 (Gangnam Station) coordinates
+                    let lat = 37.498095;
+                    let lon = 127.027610;
+                    userCurrentLat = lat; userCurrentLon = lon;
+                    
+                    fetchWeatherInfo(lat, lon);
+                    fetchDynamicHomeData(lat, lon);
+
+                    if (typeof kakao !== 'undefined' && kakao.maps) {
+                        kakao.maps.load(() => {
+                            kakaoMap = new kakao.maps.Map(document.getElementById('real-map'), {
+                                center: new kakao.maps.LatLng(lat, lon),
+                                level: 4
+                            });
+                            drawMeMarker(lat, lon);
+                            
+                            const geocoder = new kakao.maps.services.Geocoder();
+                            geocoder.coord2RegionCode(lon, lat, (result, status) => {
+                                if (status === kakao.maps.services.Status.OK) {
+                                    for(let i=0; i<result.length; i++) {
+                                        if (result[i].region_type === 'H') {
+                                            const addrEl = document.getElementById('current-address');
+                                            if(addrEl) addrEl.textContent = result[i].address_name;
+                                            break;
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    }
+                }, error => {
+                    initFallbackMap();
+                });
+            } else {
+                initFallbackMap();
+            }
+        }
+
+        function initFallbackMap() {
+            let lat = 37.566826; let lon = 126.9786567;
+            userCurrentLat = lat; userCurrentLon = lon;
+            fetchWeatherInfo(lat, lon);
+            
+            if (typeof kakao !== 'undefined' && kakao.maps) {
+                kakao.maps.load(() => {
+                    kakaoMap = new kakao.maps.Map(document.getElementById('real-map'), {
+                        center: new kakao.maps.LatLng(lat, lon),
+                        level: 4
+                    });
+                    drawMeMarker(lat, lon);
+                });
+            }
+            fetchDynamicHomeData(lat, lon);
+        }
+        
+        // Execute on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initNetworkAndMap();
+        });
+    </script>
+</body>
+</html>

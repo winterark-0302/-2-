@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeK Summer PRD v1.0</title>
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --dark-blue: #1e3a8a;
+            --light-blue: #eff6ff;
+            --border-color: #e5e7eb;
+            --text-main: #374151;
+            --text-strong: #111827;
+            --bg-body: #f3f4f6;
+            --bg-container: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--bg-container);
+            padding: 50px 60px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: var(--dark-blue);
+            font-size: 2.2rem;
+            font-weight: 800;
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-blue);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: var(--text-strong);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 30px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 18px;
+            background-color: var(--primary-blue);
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 28px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        strong {
+            color: var(--text-strong);
+            font-weight: 700;
+        }
+
+        pre {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 24px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 20px 0 30px 0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            font-weight: normal;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #d1d5db;
+            margin: 50px 0;
+        }
+
+        .doc-info {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 60px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .doc-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #64748b;
+        }
+
+        .doc-info h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: #475569;
+        }
+        
+        .doc-info h3::before {
+            background-color: #64748b;
+        }
+
+        .doc-info ul {
+            margin-bottom: 0;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .doc-info li {
+            position: relative;
+            padding-left: 16px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        
+        .doc-info li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #94a3b8;
+        }
+
+        /* 텍스트 하이라이트 박스 요소 추가 */
+        .highlight-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SafeK Summer: 외국인 여행자를 위한 한국 안전 관광 가이드 v1.0 ☀️☔</h1>
+        
+        <h2>1. 프로젝트 개요 (Product Requirements Document)</h2>
+        <p>본 문서는 K-관광 중 극단적 기상 이변(폭염, 장마 등)에 노출된 외국인 관광객들에게 실시간 기상/안전 정보 및 내 주변 위치 기반 기능성 관광 코스와 편의시설 안내를 제공하는 <strong>'SafeK Summer'</strong>의 1차 MVP 구축 계획 및 산출물을 정의합니다.</p>
+        
+        <h3>1.1 기획 배경 및 비전</h3>
+        <ul>
+            <li><strong>문제 정의:</strong> 기상 이변(폭염 및 게릴라성 호우)과 낯선 지리/언어 환경으로 인한 외국인 관광객의 불안감 증가 및 관광 만족도 저하</li>
+            <li><strong>해결책 (Solution):</strong> 단순한 명소 나열이 아닌, '현재 날씨', '지하철 혼잡도' 및 '내 주변 실시간 상황'을 반영한 안전 대체 코스 필터링 및 화장실/안내소/대피소 등 편의시설 즉시 탐색 기능 제공.</li>
+            <li><strong>기대 효과:</strong> 서울 중심 MVP 런칭(1단계) 후, 전국 단위(2단계: 부산, 제주 등) 확장을 통한 K-관광 인프라 개선 효과.</li>
+        </ul>
+        
+        <hr>
+        
+        <h2>2. 모노레포(Monorepo) 폴더 구조</h2>
+        <p>심사위원 및 평가자가 프로젝트를 직관적으로 파악할 수 있도록 프론트엔드와 백엔드를 하나의 GitHub 레포지토리에서 관리하는 모노레포 구조를 채택하였습니다.</p>
+        
+<pre><code>SafeK_Summer_Workspace/
+├── docs/
+│   └── PRD.md                 # SafeK Summer 기획 및 산출물 문서 (본 문서)
+├── backend/                   # FastAPI, PostgreSQL, Prophet 데이터 모델 코드
+├── frontend/                  # React Native (Expo) 기반 모바일 화면 코드
+├── data_samples/              # 서비스 구동을 위한 수집 샘플 데이터 (Weather, Places, Subway 등)
+├── docker-compose.yml         # 로컬 DB/캐시 실행을 위한 도커 설정
+└── README.md                  # 프로젝트 요약, 실행 방법, 팀 소개</code></pre>
+        
+        <hr>
+        
+        <h2>3. 로컬 기반 시연 (Demonstration) 가이드</h2>
+        <div class="highlight-box">
+            평가자가 "이게 진짜 로컬에서 돌아가나요?"라고 물었을 때 즉각적인 시연이 가능하도록 준비된 1차 개발 완료 버전의 실행 가이드입니다.
+        </div>
+        
+        <h3>3.1 백엔드 시연 준비</h3>
+        <ol>
+            <li>터미널에서 <code>docker-compose up -d</code>를 실행하여 통합 DB(PostgreSQL)와 캐시 서버를 컨테이너로 구동합니다.</li>
+            <li><code>backend/</code> 폴더 진입 후 FastAPI 서버를 실행합니다. (<code>uvicorn app.main:app --reload</code>)</li>
+            <li>브라우저에서 <code>http://localhost:8000/docs</code> (Swagger UI)에 접속하여 <strong>'API가 실제로 작동하며 추천 코스, 날씨, 혼잡도 데이터를 반환하는 화면'</strong>을 띄워둡니다.</li>
+        </ol>
+        
+        <h3>3.2 프론트엔드 시연 준비</h3>
+        <ol>
+            <li>터미널에서 <code>npx expo start</code>를 실행하여 로컬 디바이스 또는 시뮬레이터에서 프론트엔드 앱을 구동합니다.</li>
+            <li>가장 시각적 효과가 좋은 <strong>'날씨 연동형 홈 화면'</strong>과 '내 주변 화장실/안내소 맵 화면' 위주로 클릭하며 시연 시나리오를 진행합니다. (폭염 경고 배너 및 안심 대피소 팝업 등 시연)</li>
+        </ol>
+        
+        <hr>
+        
+        <h2>4. 데이터 파이프라인 및 수집 샘플 증빙</h2>
+        <p>실제 공공 API를 연결해 두었더라도, "우리가 이런 형태의 원천 데이터를 수집하고 정제/가공했다"는 점을 명확히 증빙하기 위해 <code>data_samples</code> 폴더에 다음과 같은 정적 파일을 구성해 두었습니다.</p>
+        <ul>
+            <li><code>sample_weather_forecast.json</code> : 기상청 단기예보 API 등에서 받아온 격자별 날씨 및 폭염/호우 특보 원본 데이터 샘플.</li>
+            <li><code>sample_safe_places_cleaned.csv</code> : 행안부 공공화장실 데이터 및 관광공사 안내소 데이터를 DB에 직접 넣기 좋게 위경도, 영문명, 카테고리로 1차 정제(Cleaned)한 엑셀(CSV) 파일.</li>
+            <li><code>sample_subway_congestion.csv</code> : 서울교통공사의 지하철 시간대별 혼잡도 과거 데이터 샘플 (Prophet 시계열 모델의 혼잡도 예측을 위한 학습용 증빙 데이터).</li>
+        </ul>
+        
+        <hr>
+        
+        <h2>5. 제품기획/제품소개서 (Pitch Deck) 구성안</h2>
+        <p>심사위원이나 투자자를 효과적으로 설득하기 위해 핵심 내용만 찌르는 시각적 5장 구성의 Pitch Deck(PPT) 구조입니다.</p>
+        <ul>
+            <li><strong>Slide 1 (표지):</strong> SafeK Summer - 외국인을 위한 실시간 날씨/안전 기반 스마트 관광 가이드</li>
+            <li><strong>Slide 2 (문제 정의):</strong> 기상 이변(폭염/장마)과 낯선 환경으로 인한 외국인 관광객의 불안감 증가 (관련 통계 및 뉴스 인용).</li>
+            <li><strong>Slide 3 (해결책):</strong> 단순 명소 추천이 아닌, '현재 날씨'와 '내 위치' 기반의 안전한 대체 코스 및 편의시설(화장실/안내소) 즉시 탐색 기능 제안.</li>
+            <li><strong>Slide 4 (핵심 기술 및 화면):</strong> 앞서 설계한 FastAPI 파이프라인 아키텍처 다이어그램과 React Native 앱 UI 스크린샷 2~3장 배치 (기술적 신뢰감 확보).</li>
+            <li><strong>Slide 5 (기대 효과 및 비전):</strong> 서울 중심 MVP 런칭 후, 전국 단위(부산, 제주 등) 확장을 통한 K-관광 인프라 전반의 체질 개선 효과.</li>
+        </ul>
+        
+        <hr>
+        
+        <div class="doc-info">
+            <h3>Document Info</h3>
+            <ul>
+                <li><strong>Version:</strong> SafeK Summer PRD v1.0</li>
+                <li><strong>Target:</strong> 심사위원, 프로젝트 멘토, 팀 개발자</li>
+                <li><strong>Repository:</strong> <code>SafeK_Summer_Workspace</code></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

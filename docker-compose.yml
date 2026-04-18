@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: safek_postgres
+    environment:
+      POSTGRES_USER: safekuser
+      POSTGRES_PASSWORD: safekpassword
+      POSTGRES_DB: safek_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - safek_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    container_name: safek_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: safek_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: safek_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: safek_frontend
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: safek_nginx_exporter
+    command:
+      - -nginx.scrape-uri=http://frontend:80/metrics
+    ports:
+      - "9113:9113"
+    depends_on:
+      - frontend
+    restart: unless-stopped
+
+volumes:
+  safek_db_data:

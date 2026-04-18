@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: safek-frontend
+  namespace: default
+  labels:
+    app: safek-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: safek-frontend
+  template:
+    metadata:
+      labels:
+        app: safek-frontend
+    spec:
+      containers:
+      # Main NGINX Server Container
+      - name: safek-frontend
+        image: safek-frontend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: nginx-cfg
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+
+      # NGINX Prometheus Exporter Sidecar Container
+      - name: nginx-exporter
+        image: nginx/nginx-prometheus-exporter:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9113
+        args:
+          - "-nginx.scrape-uri=http://localhost:80/stub_status"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+
+      volumes:
+      - name: nginx-cfg
+        configMap:
+          name: nginx-config

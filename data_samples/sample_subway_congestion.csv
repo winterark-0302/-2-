@@ -1,0 +1,10 @@
+date,time_slot,station_name,line_number,congestion_rate
+2026-04-01,08:00,Hongik University,2,145.2
+2026-04-01,09:00,Hongik University,2,160.8
+2026-04-01,10:00,Hongik University,2,95.5
+2026-04-01,11:00,Hongik University,2,80.1
+2026-04-01,13:00,Myeongdong,4,110.3
+2026-04-01,14:00,Myeongdong,4,115.5
+2026-04-01,18:00,Gangnam,2,175.4
+2026-04-01,19:00,Gangnam,2,189.1
+2026-04-01,20:00,Gangnam,2,140.2
